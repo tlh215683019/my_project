@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>Archetype Created Web Application</display-name>
+	<!-- 配置编码过滤器Start -->
+	<filter>
+		<!-- url-pattern的值可以是/也可以是/* -->
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置编码过滤器End -->
+
+	<!-- 如果同一个bean被定义两次，后面一个优先 -->
+	<!-- classpath*与classpath的区别:前者遍历所有的classpath加载所有符合条件的资源(效率较差)，后者只会去找第一个符合条件的资源(避免重名) -->
+	<context-param>
+		<description></description>
+		<param-name>contextConfigLocation</param-name>
+		<!-- <param-value>classpath*:spring-*.xml</param-value> -->
+		<param-value>
+			classpath:spring-mybatis.xml
+		</param-value>
+	</context-param>
+	<!-- <context-param> <param-name>spring.profiles.active</param-name> <param-value>dev</param-value> 
+		</context-param> <context-param> <param-name>spring.profiles.default</param-name> 
+		<param-value>dev</param-value> </context-param> <context-param> <param-name>spring.liveBeansView.mbeanDomain</param-name> 
+		<param-value>dev</param-value> </context-param> -->
+	<!-- 此监听器主要用于解决java.beans.Introspector导致的内存泄漏的问题,回收JavaBean中的缓存垃圾，防止内存变大。默认可以不配 -->
+	<!-- 此监听器应该配置在web.xml中与Spring相关监听器中的第一个位置(也要在ContextLoaderListener的前面) -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<!-- 启动spring容器用，容器用于管理Bean -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- DispatcherServlet 针对MVC上下文加载，即拦截请求，分发请求给Controller -->
+	<!-- load-on-startup 标记容器是否在启动的时候就加载这个servlet, >=0时启动,其他情况被选择才启动，相当于懒加载和饿汉模式 -->
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>indexs.jsp</welcome-file>
+		<welcome-file>index.gsp</welcome-file>
+	</welcome-file-list>
+	<!-- 解决样式资源丢失问题 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.json</url-pattern>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.htm</url-pattern>
+		<url-pattern>*.swf</url-pattern>
+		<url-pattern>*.eot</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.woff</url-pattern>
+		<url-pattern>*.woff2</url-pattern>
+		<url-pattern>*.jpeg</url-pattern><!-- 页面不显示图片，格式不允许 -->
+	</servlet-mapping>
+	 <session-config>
+        <session-timeout>10</session-timeout>
+    </session-config>
+</web-app>
