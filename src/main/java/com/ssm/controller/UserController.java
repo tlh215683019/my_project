@@ -1,7 +1,7 @@
 package com.ssm.controller;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +31,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(User user) {
     	System.out.println("username:"+user.getUsername()+" password:"+user.getPassword());
+        System.out.println("username:"+user.getUsername()+" password:"+user.getPassword());
        /* User user = userDao.findByUsername(model.getUsername());
         if (user == null || !user.getPassword().equals(model.getPassword())) {
             return new ModelAndView("redirect:/login.jsp");
